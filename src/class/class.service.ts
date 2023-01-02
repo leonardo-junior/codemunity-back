@@ -1,25 +1,25 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { ClassData, Prisma } from '@prisma/client';
+import { Injectable } from '@nestjs/common'
+import { PrismaService } from '../prisma.service'
+import { ClassData, Prisma } from '@prisma/client'
 
 @Injectable()
-export class ClassesService {
+export class ClassService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.ClassDataCreateInput): Promise<ClassData> {
     return this.prisma.classData.create({
       data,
-    });
+    })
   }
 
   async findAll(): Promise<ClassData[] | null> {
-    return this.prisma.classData.findMany();
+    return this.prisma.classData.findMany()
   }
 
   async findOne(id: number): Promise<ClassData | null> {
     return this.prisma.classData.findUnique({
       where: { id },
-    });
+    })
   }
 
   async update(
@@ -29,12 +29,12 @@ export class ClassesService {
     return this.prisma.classData.update({
       data,
       where: { id },
-    });
+    })
   }
 
   async remove(id: number): Promise<ClassData> {
     return this.prisma.classData.delete({
       where: { id },
-    });
+    })
   }
 }
