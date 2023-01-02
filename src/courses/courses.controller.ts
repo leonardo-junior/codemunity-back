@@ -7,17 +7,16 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { CoursesService } from './courses.service';
-import { CreateCourseDto } from './dto/create-course.dto';
-import { UpdateCourseDto } from './dto/update-course.dto';
 
 @Controller('courses')
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
   @Post()
-  create(@Body() createCourseDto: CreateCourseDto) {
-    return this.coursesService.create(createCourseDto);
+  create(@Body() data: Prisma.CourseCreateInput) {
+    return this.coursesService.create(data);
   }
 
   @Get()
@@ -31,8 +30,8 @@ export class CoursesController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
-    return this.coursesService.update(+id, updateCourseDto);
+  update(@Param('id') id: string, @Body() data: Prisma.CourseUpdateInput) {
+    return this.coursesService.update(+id, data);
   }
 
   @Delete(':id')

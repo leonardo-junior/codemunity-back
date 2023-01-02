@@ -28,6 +28,7 @@ model Course {
 
 model CourseSection {
   id Int @id @default(autoincrement())
+  name String @db.VarChar
   id_course Int
   course Course @relation(fields: [id_course], references: [id])
 
