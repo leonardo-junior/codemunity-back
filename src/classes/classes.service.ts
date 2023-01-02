@@ -1,36 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateClassDto } from './dto/create-class.dto';
+import { PrismaService } from '../prisma.service';
+import { Renamedclass, Prisma } from '@prisma/client';
 import { UpdateClassDto } from './dto/update-class.dto';
-import { Class } from './entities/class.entity';
 
 @Injectable()
 export class ClassesService {
-  constructor(
-    @InjectRepository(Class)
-    private classesRepository: Repository<Class>,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
-  create(createClassDto: CreateClassDto) {
-    return this.classesRepository.save(createClassDto);
+  async create(data: Prisma.RenamedclassCreateInput): Promise<Renamedclass> {
+    return this.prisma.renamedclass.create({
+      data,
+    });
   }
 
-  findAll() {
-    return this.classesRepository.find();
+  async findAll(): Promise<Renamedclass[] | null> {
+    return this.prisma.renamedclass.findMany();
   }
 
-  findOne(id: number) {
-    return this.classesRepository.findOneBy({ id });
+  async findOne(id: number): Promise<Renamedclass | null> {
+    return this.prisma.renamedclass.findUnique({
+      where: { id },
+    });
   }
 
-  update(id: number, updateClassDto: UpdateClassDto) {
-    return this.classesRepository.update(id, updateClassDto);
+  async update(id: number, data: UpdateClassDto): Promise<Renamedclass> {
+    return this.prisma.renamedclass.update({
+      data,
+      where: { id },
+    });
   }
 
-  async remove(id: number) {
-    const removedDate = this.classesRepository.findOneBy({ id });
-    await this.classesRepository.delete(id);
-    return removedDate;
+  async remove(id: number): Promise<Renamedclass> {
+    return this.prisma.renamedclass.delete({
+      where: { id },
+    });
   }
 }

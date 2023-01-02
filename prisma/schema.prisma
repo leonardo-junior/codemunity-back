@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ClassData {
+  id        Int    @id(map: "PK_0b9024d21bdfba8b1bd1c300eae") @default(autoincrement())
+  name      String @db.VarChar
+  url       String @db.VarChar
+  id_course_section Int
+  course_section CourseSection @relation(fields: [id_course_section], references: [id])
+
+  @@map("class")
+
+}
+
+model Course {
+  id   Int    @id(map: "PK_bf95180dd756fd204fb01ce4916") @default(autoincrement())
+  name String @db.VarChar
+
+  @@map("course")
+  CourseSection CourseSection[]
+}
+
+model CourseSection {
+  id Int @id @default(autoincrement())
+  id_course Int
+  course Course @relation(fields: [id_course], references: [id])
+
+  @@map("course_section")
+  ClassData ClassData[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model earthquake {
+  earthquake_id      Int?
+  occurred_on        String?
+  latitude           Decimal? @db.Decimal
+  longitude          Decimal? @db.Decimal
+  depth              Decimal? @db.Decimal
+  magnitude          Decimal? @db.Decimal
+  calculation_method String?
+  network_id         String?
+  place              String?
+  cause              String?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model users {
+  id   Int     @default(autoincrement())
+  name String?
+  age  Int?
+
+  @@ignore
+}

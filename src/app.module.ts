@@ -1,27 +1,15 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
-import { CoursesModule } from './courses/courses.module';
-import { ClassesModule } from './classes/classes.module';
-import { Course } from './courses/entities/course.entity';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { ClassesController } from './classes/classes.controller';
+import { ClassesService } from './classes/classes.service';
+import { CoursesController } from './courses/courses.controller';
+import { CoursesService } from './courses/courses.service';
+import { PrismaService } from './prisma.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5832,
-      username: 'postgres',
-      password: '1234',
-      database: 'postgres',
-      entities: [Course],
-      synchronize: true,
-      autoLoadEntities: true,
-    }),
-    CoursesModule,
-    ClassesModule,
-  ],
+  imports: [],
+  controllers: [AppController, ClassesController, CoursesController],
+  providers: [AppService, PrismaService, ClassesService, CoursesService],
 })
-export class AppModule {
-  constructor(private dataSource: DataSource) {}
-}
+export class AppModule {}

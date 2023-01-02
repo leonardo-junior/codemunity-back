@@ -1,37 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateCourseDto } from './dto/create-course.dto';
+import { Course, Prisma } from '@prisma/client';
+import { PrismaService } from 'src/prisma.service';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { Course } from './entities/course.entity';
 
 @Injectable()
 export class CoursesService {
-  constructor(
-    @InjectRepository(Course)
-    private coursesRepository: Repository<Course>,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
-  create(createCourseDto: CreateCourseDto) {
-    return this.coursesRepository.save(createCourseDto);
+  create(data: Prisma.CourseCreateInput): Promise<Course> {
+    return this.prisma.course.create({
+      data,
+    });
   }
 
-  findAll(): Promise<Course[]> {
-    return this.coursesRepository.find();
+  findAll(): Promise<Course[] | null> {
+    return this.prisma.course.findMany();
   }
 
-  findOne(id: number): Promise<Course> {
-    return this.coursesRepository.findOneBy({ id });
+  findOne(id: number): Promise<Course | null> {
+    return this.prisma.course.findUnique({
+      where: { id },
+    });
   }
 
-  update(id: number, updateCourseDto: UpdateCourseDto) {
-    return this.coursesRepository.update(id, updateCourseDto);
+  update(id: number, updateCourseDto: UpdateCourseDto): Promise<Course> {
+    return this.prisma.course.update({
+      where: { id },
+      data: updateCourseDto,
+    });
   }
 
   async remove(id: number): Promise<UpdateCourseDto> {
-    const removedDate = this.coursesRepository.findOneBy({ id });
-    await this.coursesRepository.delete(id);
-    // search if it's really correct, maybe not if it's wrong
-    return removedDate;
+    return this.prisma.course.delete({
+      where: { id },
+    });
   }
 }
