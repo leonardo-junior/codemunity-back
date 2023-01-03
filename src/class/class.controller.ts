@@ -7,7 +7,7 @@ export class ClassController {
   constructor(private readonly classService: ClassService) {}
 
   @Post('/')
-  create(@Body() createClassDto: Prisma.ClassDataCreateInput) {
+  create(@Body() createClassDto: Prisma.ClassUncheckedCreateInput) {
     return this.classService.create(createClassDto)
   }
 
@@ -22,7 +22,7 @@ export class ClassController {
   }
 
   @Put('/:id')
-  update(@Param('id') id: string, @Body() data: Prisma.ClassDataUpdateInput) {
+  update(@Param('id') id: string, @Body() data: Prisma.ClassUpdateInput) {
     return this.classService.update(+id, data)
   }
 

@@ -1,39 +1,50 @@
-import { Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
-import { ClassData, Prisma } from '@prisma/client'
+import { Class, Prisma } from '@prisma/client'
 
 @Injectable()
 export class ClassService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.ClassDataCreateInput): Promise<ClassData> {
-    return this.prisma.classData.create({
-      data,
+  async create(data: Prisma.ClassUncheckedCreateInput): Promise<Class> {
+    const courseSection = await this.prisma.courseSection.findUnique({
+      where: {
+        id: data.courseSectionId,
+      },
     })
+
+    if (!courseSection) throw new BadRequestException()
+
+    try {
+      return this.prisma.class.create({ data })
+    } catch (error) {
+      throw new InternalServerErrorException(error)
+    }
   }
 
-  async findAll(): Promise<ClassData[] | null> {
-    return this.prisma.classData.findMany()
+  async findAll(): Promise<Class[] | null> {
+    return this.prisma.class.findMany()
   }
 
-  async findOne(id: number): Promise<ClassData | null> {
-    return this.prisma.classData.findUnique({
+  async findOne(id: number): Promise<Class | null> {
+    return this.prisma.class.findUnique({
       where: { id },
     })
   }
 
-  async update(
-    id: number,
-    data: Prisma.ClassDataUpdateInput,
-  ): Promise<ClassData> {
-    return this.prisma.classData.update({
+  async update(id: number, data: Prisma.ClassUpdateInput): Promise<Class> {
+    return this.prisma.class.update({
       data,
       where: { id },
     })
   }
 
-  async remove(id: number): Promise<ClassData> {
-    return this.prisma.classData.delete({
+  async remove(id: number): Promise<Class> {
+    return this.prisma.class.delete({
       where: { id },
     })
   }

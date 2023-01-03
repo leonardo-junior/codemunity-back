@@ -8,7 +8,7 @@ export class CourseSectionService {
 
   async create(data: Prisma.CourseSectionUncheckedCreateInput) {
     const course = await this.prisma.course.findFirst({
-      where: { id: data.id_course },
+      where: { id: data.courseId },
     })
 
     if (!course) return

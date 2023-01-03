@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common'
-import { Prisma } from '@prisma/client'
+import { CourseSection, Prisma } from '@prisma/client'
 import { CourseSectionService } from './course-section.service'
 
 @Controller('/course-sections')
@@ -7,7 +7,7 @@ export class CourseSectionsController {
   constructor(private readonly courseSectionService: CourseSectionService) {}
 
   @Post('/')
-  create(@Body() data: any) {
+  create(@Body() data: CourseSection) {
     return this.courseSectionService.create(data)
   }
 
