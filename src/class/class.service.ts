@@ -12,9 +12,7 @@ export class ClassService {
 
   async create(data: Prisma.ClassUncheckedCreateInput): Promise<Class> {
     const courseSection = await this.prisma.courseSection.findUnique({
-      where: {
-        id: data.courseSectionId,
-      },
+      where: { id: data.courseSectionId },
     })
 
     if (!courseSection) throw new BadRequestException()
