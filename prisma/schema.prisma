@@ -3,14 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model Class {
   id              Int    @id @default(autoincrement())
-  name            String @db.VarChar
-  url             String @db.VarChar
+  name            String
+  url             String
   courseSectionId Int    @map("course_section_id")
 
   courseSections CourseSection @relation(fields: [courseSectionId], references: [id])
@@ -20,7 +20,7 @@ model Class {
 
 model Course {
   id   Int    @id @default(autoincrement())
-  name String @db.VarChar
+  name String
 
   courseSections CourseSection[]
 
@@ -29,7 +29,7 @@ model Course {
 
 model CourseSection {
   id       Int    @id @default(autoincrement())
-  name     String @db.VarChar
+  name     String
   courseId Int    @map("course_id")
 
   course  Course  @relation(fields: [courseId], references: [id])
@@ -56,7 +56,7 @@ model earthquake {
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model users {
-  id   Int     @default(autoincrement())
+  id   Int    @id  @default(autoincrement())
   name String?
   age  Int?
 
