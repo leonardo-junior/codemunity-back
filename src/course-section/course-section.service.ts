@@ -17,7 +17,11 @@ export class CourseSectionService {
   }
 
   findAll(): Promise<CourseSection[] | null> {
-    return this.prisma.courseSection.findMany()
+    return this.prisma.courseSection.findMany({
+      include: {
+        classes: true,
+      },
+    })
   }
 
   findOne(id: number): Promise<CourseSection | null> {
