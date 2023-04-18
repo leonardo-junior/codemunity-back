@@ -27,6 +27,13 @@ export class CourseService {
   findOne(id: number): Promise<Course | null> {
     return this.prisma.course.findUnique({
       where: { id },
+      include: {
+        courseSections: {
+          include: {
+            classes: true,
+          },
+        },
+      },
     })
   }
 
