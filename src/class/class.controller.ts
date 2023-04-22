@@ -18,16 +18,16 @@ export class ClassController {
 
   @Get('/:id')
   findOne(@Param('id') id: string) {
-    return this.classService.findOne(+id)
+    return this.classService.findOne(id)
   }
 
   @Put('/:id')
   update(@Param('id') id: string, @Body() data: Prisma.ClassUpdateInput) {
-    return this.classService.update(+id, data)
+    return this.classService.update(id, data)
   }
 
   @Delete('/:id')
   remove(@Param('id') id: string) {
-    return this.classService.remove(+id)
+    return this.classService.remove(id)
   }
 }

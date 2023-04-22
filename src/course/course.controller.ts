@@ -18,16 +18,16 @@ export class CoursesController {
 
   @Get('/:id')
   findOne(@Param('id') id: string) {
-    return this.coursesService.findOne(+id)
+    return this.coursesService.findOne(id)
   }
 
   @Put('/:id')
   update(@Param('id') id: string, @Body() data: Prisma.CourseUpdateInput) {
-    return this.coursesService.update(+id, data)
+    return this.coursesService.update(id, data)
   }
 
   @Delete('/:id')
   remove(@Param('id') id: string) {
-    return this.coursesService.remove(+id)
+    return this.coursesService.remove(id)
   }
 }

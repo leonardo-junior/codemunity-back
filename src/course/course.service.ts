@@ -24,7 +24,7 @@ export class CourseService {
     })
   }
 
-  findOne(id: number): Promise<Course | null> {
+  findOne(id: string): Promise<Course | null> {
     return this.prisma.course.findUnique({
       where: { id },
       include: {
@@ -38,7 +38,7 @@ export class CourseService {
   }
 
   update(
-    id: number,
+    id: string,
     updateCourseDto: Prisma.CourseUpdateInput,
   ): Promise<Course> {
     return this.prisma.course.update({
@@ -47,7 +47,7 @@ export class CourseService {
     })
   }
 
-  async remove(id: number): Promise<Prisma.CourseCreateInput> {
+  async remove(id: string): Promise<Prisma.CourseCreateInput> {
     return this.prisma.course.delete({
       where: { id },
     })

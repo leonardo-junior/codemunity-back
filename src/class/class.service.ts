@@ -28,20 +28,20 @@ export class ClassService {
     return this.prisma.class.findMany()
   }
 
-  async findOne(id: number): Promise<Class | null> {
+  async findOne(id: string): Promise<Class | null> {
     return this.prisma.class.findUnique({
       where: { id },
     })
   }
 
-  async update(id: number, data: Prisma.ClassUpdateInput): Promise<Class> {
+  async update(id: string, data: Prisma.ClassUpdateInput): Promise<Class> {
     return this.prisma.class.update({
       data,
       where: { id },
     })
   }
 
-  async remove(id: number): Promise<Class> {
+  async remove(id: string): Promise<Class> {
     return this.prisma.class.delete({
       where: { id },
     })

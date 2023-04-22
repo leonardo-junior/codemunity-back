@@ -18,7 +18,7 @@ export class CourseSectionsController {
 
   @Get('/:id')
   findOne(@Param('id') id: string) {
-    return this.courseSectionService.findOne(+id)
+    return this.courseSectionService.findOne(id)
   }
 
   @Put('/:id')
@@ -26,11 +26,11 @@ export class CourseSectionsController {
     @Param('id') id: string,
     @Body() data: Prisma.CourseSectionUpdateInput,
   ) {
-    return this.courseSectionService.update(+id, data)
+    return this.courseSectionService.update(id, data)
   }
 
   @Delete('/:id')
   remove(@Param('id') id: string) {
-    return this.courseSectionService.remove(+id)
+    return this.courseSectionService.remove(id)
   }
 }

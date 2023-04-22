@@ -1,25 +1,48 @@
+// Planet scale
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+// datasource db {
+//   provider = "mysql"
+//   url = env("DATABASE_URL")
+//   relationMode = "prisma"
+// }
+
+// LOCAL
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+// }
+
+// cockroachlabs
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
 model Class {
-  id              Int    @id @default(autoincrement())
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
   url             String
-  courseSectionId Int    @map("course_section_id")
+  courseSectionId String  @db.Uuid  @map("course_section_id")
 
   courseSections CourseSection @relation(fields: [courseSectionId], references: [id])
 
   @@map("class")
+  @@index([courseSectionId])
 }
 
 model Course {
-  id   Int    @id @default(autoincrement())
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name String
 
   courseSections CourseSection[]
@@ -28,37 +51,13 @@ model Course {
 }
 
 model CourseSection {
-  id       Int    @id @default(autoincrement())
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name     String
-  courseId Int    @map("course_id")
+  courseId String  @db.Uuid  @map("course_id")
 
   course  Course  @relation(fields: [courseId], references: [id])
   classes Class[]
 
   @@map("course_section")
-}
-
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-model earthquake {
-  earthquake_id      Int?
-  occurred_on        String?
-  latitude           Decimal? @db.Decimal
-  longitude          Decimal? @db.Decimal
-  depth              Decimal? @db.Decimal
-  magnitude          Decimal? @db.Decimal
-  calculation_method String?
-  network_id         String?
-  place              String?
-  cause              String?
-
-  @@ignore
-}
-
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-model users {
-  id   Int    @id  @default(autoincrement())
-  name String?
-  age  Int?
-
-  @@ignore
+  @@index([courseId])
 }

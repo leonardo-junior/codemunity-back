@@ -24,7 +24,7 @@ export class CourseSectionService {
     })
   }
 
-  findOne(id: number): Promise<CourseSection | null> {
+  findOne(id: string): Promise<CourseSection | null> {
     return this.prisma.courseSection.findUnique({
       where: { id },
       include: {
@@ -34,7 +34,7 @@ export class CourseSectionService {
   }
 
   update(
-    id: number,
+    id: string,
     data: Prisma.CourseSectionUpdateInput,
   ): Promise<CourseSection> {
     return this.prisma.courseSection.update({
@@ -43,7 +43,7 @@ export class CourseSectionService {
     })
   }
 
-  async remove(id: number): Promise<CourseSection> {
+  async remove(id: string): Promise<CourseSection> {
     return this.prisma.courseSection.delete({
       where: { id },
     })
