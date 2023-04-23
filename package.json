@@ -22,8 +22,8 @@
     "db:up": "docker-compose up -d",
     "db:down": "docker-compose down",
     "db:push": "prisma db push",
-    "db:migrate": "prisma migrate dev --create-only",
-    "db:migrate:apply": "prisma migrate dev",
+    "migrate": "prisma migrate dev --create-only",
+    "migrate:apply": "prisma migrate dev",
     "studio": "prisma studio"
   },
   "dependencies": {
