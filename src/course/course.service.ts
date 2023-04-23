@@ -15,9 +15,9 @@ export class CourseService {
   findAll(): Promise<Course[] | null> {
     return this.prisma.course.findMany({
       include: {
-        courseSections: {
+        modules: {
           include: {
-            classes: true,
+            lessons: true,
           },
         },
       },
@@ -28,9 +28,9 @@ export class CourseService {
     return this.prisma.course.findUnique({
       where: { id },
       include: {
-        courseSections: {
+        modules: {
           include: {
-            classes: true,
+            lessons: true,
           },
         },
       },

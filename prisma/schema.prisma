@@ -8,35 +8,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Class {
+model Lesson {
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
   url             String
-  courseSectionId String  @db.Uuid  @map("course_section_id")
+  moduleId String  @db.Uuid  @map("module_id")
 
-  courseSections CourseSection @relation(fields: [courseSectionId], references: [id])
+  modules Module @relation(fields: [moduleId], references: [id])
 
-  @@map("class")
-  @@index([courseSectionId])
+  @@map("lesson")
+  @@index([moduleId])
 }
 
 model Course {
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name String
 
-  courseSections CourseSection[]
+  modules Module[]
 
   @@map("course")
 }
 
-model CourseSection {
+model Module {
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name     String
   courseId String  @db.Uuid  @map("course_id")
 
   course  Course  @relation(fields: [courseId], references: [id])
-  classes Class[]
+  lessons Lesson[]
 
-  @@map("course_section")
+  @@map("module")
   @@index([courseId])
 }

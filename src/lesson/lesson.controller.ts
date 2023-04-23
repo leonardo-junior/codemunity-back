@@ -1,13 +1,13 @@
 import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
-import { ClassService } from './class.service'
+import { LessonService } from './lesson.service'
 
-@Controller('/classes')
-export class ClassController {
-  constructor(private readonly classService: ClassService) {}
+@Controller('/lessons')
+export class LessonController {
+  constructor(private readonly classService: LessonService) {}
 
   @Post('/')
-  create(@Body() createClassDto: Prisma.ClassUncheckedCreateInput) {
+  create(@Body() createClassDto: Prisma.LessonUncheckedCreateInput) {
     return this.classService.create(createClassDto)
   }
 
@@ -22,7 +22,7 @@ export class ClassController {
   }
 
   @Put('/:id')
-  update(@Param('id') id: string, @Body() data: Prisma.ClassUpdateInput) {
+  update(@Param('id') id: string, @Body() data: Prisma.LessonUpdateInput) {
     return this.classService.update(id, data)
   }
 
